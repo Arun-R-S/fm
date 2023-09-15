@@ -1,7 +1,8 @@
 {
   "name": "my-fm",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

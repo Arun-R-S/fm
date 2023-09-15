@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" mode="md">
+<html lang="en" id="mainDocCode" mode="">
 
 <head>
   <meta charset="utf-8"/>
@@ -25,5 +25,23 @@
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
+<script>
+  let h = document.getElementById("mainDocCode");
+  if(localStorage.getItem('appThemeMode')==null)
+  {
+    localStorage.setItem('appThemeMode','md');
+    h.setAttribute('mode','md');
+  }
+  if(localStorage.getItem('appThemeMode')=='md'){
+    h.setAttribute('mode',localStorage.getItem('appThemeMode'));
+  }
+  if(localStorage.getItem('appThemeMode')=='ios'){
+    h.setAttribute('mode',localStorage.getItem('appThemeMode'));
+  }
+  else{
+    h.setAttribute('mode','md');
+  }
 
+
+</script>
 </html>

@@ -4,7 +4,8 @@
       <ion-menu-toggle style="padding-left: 10px;">
         <ion-icon size="large" name="menu"></ion-icon>
       </ion-menu-toggle>
-      <ion-title id="radioName">{{radioPlaying}}</ion-title>
+      <ion-title id="radioName" *ngIf="!this.player.audio.paused">{{getRadioName(this.player.audio.src)}}</ion-title>
+      <ion-title id="radioName" *ngIf="this.player.audio.paused">Select a radio</ion-title>
 
     </ion-row>
 
@@ -14,9 +15,11 @@
 
 <ion-content>
 
-  <div class="container" id="cardContainer">
-    <div *ngFor="let r of radioChannels; let i = index" [attr.data-index]="i">
-      <div class="card" (click)="selectRadio(r.url,i,r.name)" id="rad{{i}}">
+  <div class="container" id="cardContainer" (load)="loaded()">
+    <div *ngFor="let r of r.radioChannels; let i = index" [attr.data-index]="i">
+      <div (click)="selectRadio(r.url,i,r.name)"
+      [attr.class]="((this.player.audio.src===r.url)) ? 'card active' : 'card'"
+      id="rad{{i}}" >
         <div class="card-header">
           <img [src]="[r.icon]" [alt]="[r.name]" />
         </div>
@@ -28,7 +31,7 @@
         <span>{{r.name}}</span>
       </p>
     </div>
-
+    <!-- <button (click)="getAudioStatus()"></button> -->
   </div>
   <br>
 </ion-content>
@@ -37,20 +40,22 @@
 
     <ion-item class="volumeSlider">
 
-      <ion-range  value="" [pin]="true" id="volume" min="0" max="100" step="1" (ionChange)="volume($event)" style="padding-top: 10px;">
+      <ion-range  value="{{currentVolume}}" [pin]="true" id="volume" min="{{rangeMin}}" max="{{rangeMax}}" step="{{rangeStep}}" (ionChange)="volume($event)" style="padding-top: 20px;">
 
 
+        <ion-icon size="small" slot="start" (click)="previousFM()" name="play-skip-back"></ion-icon>
+        <ion-icon [attr.name]="this.player.audio.paused ? 'play' : 'pause'" color="primary" slot="start" id="playButton" (click)="togglePlay()"></ion-icon>
+        <ion-icon size="small" slot="start" (click)="nextFM()" name="play-skip-forward"></ion-icon>
 
-        <ion-icon name="play" color="primary" slot="start" id="playButton" (click)="togglePlay()"></ion-icon>
-        <ion-icon name="stop" color="danger" slot="start" id="stopButton" (click)="radioStop()"></ion-icon>
         <ion-icon size="small" slot="start" name="volume-low"></ion-icon>
+        <ion-icon name="stop" color="danger" slot="end" id="stopButton" (click)="radioStop()"></ion-icon>
 
         <ion-icon slot="end" name="volume-high">
-
         </ion-icon>
 
       </ion-range>
 
     </ion-item>
   </ion-list>
+
 </ion-navbar>

@@ -12,6 +12,9 @@ import { RadioChannelsPage } from './radio-channels/radio-channels.page';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AudioService } from './service/audio-service.component';
+import { RadioService } from './service/radio-channels.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -21,6 +24,7 @@ import { AudioService } from './service/audio-service.component';
   ],
   entryComponents: [],
   imports: [BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule, ReactiveFormsModule, RouterModule, ServiceWorkerModule.register('ngsw-worker.js', {
     enabled: environment.production,
@@ -29,7 +33,8 @@ import { AudioService } from './service/audio-service.component';
     registrationStrategy: 'registerWhenStable:30000'
   })],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-  AudioService
+  AudioService,
+  RadioService
   ],
   bootstrap: [AppComponent],
   schemas: [
